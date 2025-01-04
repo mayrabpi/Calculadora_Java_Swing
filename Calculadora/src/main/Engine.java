@@ -36,6 +36,57 @@ public class Engine implements ActionListener {
 	private JButton igual;
 	private JButton borra;
 	private JButton negativo;
+	//tipos de boton numericos o de operación
+	private enum ButtonType {REGULAR, OPERATOR};
+	//Variables para almacenara temporalmente los valores 
+	private int num1;
+	private int num2;
+	private int resultado;
+	private char operacion;
+	
+	/**
+	 * Constructora de la Calculadora
+	 * Inicializa los componentes graficos y configura la interfaz
+	 */
+	public Engine() {
+		//inicializamos el marco de la ventana
+		this.frame = new JFrame("Calculadora");
+		this.contentPanel= new JPanel();
+		this.displeyPanel= new JPanel();
+		this.buttonPanel= new JPanel();
+		this.display = new JTextField();
+		//inicializamos los botones
+		this.n0 = new JButton("0");
+		this.n1 = new JButton("1");
+		this.n2 = new JButton("2");
+		this.n3 = new JButton("3");
+		this.n4 = new JButton("4");
+		this.n5 = new JButton("5");
+		this.n6 = new JButton("6");
+		this.n7 = new JButton("7");
+		this.n8 = new JButton("8");
+		this.n9 = new JButton("9");
+		this.divide = new JButton("/");
+		this.multiplica = new JButton("*");
+		this.resta = new JButton("-");
+		this.suma= new JButton("+");
+		this.igual= new JButton("=");
+		this.borra= new JButton("C");
+		this.negativo = new JButton("±");
+		
+	    // Configurar el frame principal
+        frame.setContentPane(contentPanel);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setSize(400, 500);
+        frame.setLocationRelativeTo(null);
+        frame.setVisible(true);
+		
+		
+		
+		
+		
+		
+	}
 
 	
 	
