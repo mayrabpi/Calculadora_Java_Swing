@@ -155,35 +155,19 @@ public class Engine implements ActionListener {
 			_button.setBackground(Color.orange);
 		
 	}
+	/**
+	 * Metodo que añade ActtionListener a los botones
+	 */
+	private void addActionEvent() {
 		
+	}
+	/**
+	 * Metodo que realiza las operaciones matemáticas 
+	 */
+	private void operacion() {
 		
-	
-
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-
+	}
+		
 	@Override
 	public void actionPerformed(ActionEvent e) {
 	
