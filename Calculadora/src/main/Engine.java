@@ -94,13 +94,20 @@ public class Engine implements ActionListener {
 		this.buttonPanel.add(n7);
 		this.buttonPanel.add(n8);
 		this.buttonPanel.add(n9);
+		this.buttonPanel.add(this.suma);	
 		this.buttonPanel.add(n4);
 		this.buttonPanel.add(n5);
 		this.buttonPanel.add(n6);
+		this.buttonPanel.add(this.resta);	
 		this.buttonPanel.add(n1);
 		this.buttonPanel.add(n2);
 		this.buttonPanel.add(n3);
+		this.buttonPanel.add(this.multiplica);	
+		this.buttonPanel.add(this.borra);	
 		this.buttonPanel.add(n0);
+		this.buttonPanel.add(this.negativo);
+		this.buttonPanel.add(this.igual);
+		this.buttonPanel.add(this.divide);	
 		
 		  // Agregar paneles al contenido principal
         contentPanel.add(displeyPanel, BorderLayout.NORTH);
