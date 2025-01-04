@@ -1,5 +1,7 @@
 package main;
 
+import java.awt.BorderLayout;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -73,20 +75,49 @@ public class Engine implements ActionListener {
 		this.igual= new JButton("=");
 		this.borra= new JButton("C");
 		this.negativo = new JButton("±");
+		setSetting();
+	
 		
-	    // Configurar el frame principal
+	}
+	/**
+	 * Metodo que configura las propiedades de la ventana y de los paneles 
+	 */
+	private void setSetting() {
+		//configurar el layaut y agregar paneles
+		this.contentPanel.setLayout(new BorderLayout());
+		this.displeyPanel.setLayout(new BorderLayout());
+		this.buttonPanel.setLayout(new GridLayout(5,4,5,5));
+		
+		this.displeyPanel.add(this.display);
+		
+		//añadir botones
+		this.buttonPanel.add(n7);
+		this.buttonPanel.add(n8);
+		this.buttonPanel.add(n9);
+		this.buttonPanel.add(n4);
+		this.buttonPanel.add(n5);
+		this.buttonPanel.add(n6);
+		this.buttonPanel.add(n1);
+		this.buttonPanel.add(n2);
+		this.buttonPanel.add(n3);
+		this.buttonPanel.add(n0);
+		
+		  // Agregar paneles al contenido principal
+        contentPanel.add(displeyPanel, BorderLayout.NORTH);
+        contentPanel.add(buttonPanel, BorderLayout.CENTER);
+		
+		
+		
+	      // Configurar el frame principal
         frame.setContentPane(contentPanel);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(400, 500);
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
+    }
 		
 		
-		
-		
-		
-		
-	}
+	
 
 	
 	
