@@ -1,6 +1,7 @@
 package main;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -109,6 +110,26 @@ public class Engine implements ActionListener {
 		this.buttonPanel.add(this.igual);
 		this.buttonPanel.add(this.divide);	
 		
+		setFeaturesButton(this.n0, ButtonType.REGULAR);
+		setFeaturesButton(this.n1, ButtonType.REGULAR);
+		setFeaturesButton(this.n2, ButtonType.REGULAR);
+		setFeaturesButton(this.n3, ButtonType.REGULAR);
+		setFeaturesButton(this.n4, ButtonType.REGULAR);
+		setFeaturesButton(this.n5, ButtonType.REGULAR);
+		setFeaturesButton(this.n6, ButtonType.REGULAR);
+		setFeaturesButton(this.n7, ButtonType.REGULAR);
+		setFeaturesButton(this.n8, ButtonType.REGULAR);
+		setFeaturesButton(this.n9, ButtonType.REGULAR);
+		setFeaturesButton(this.divide, ButtonType.OPERATOR);
+		setFeaturesButton(this.multiplica, ButtonType.OPERATOR);
+		setFeaturesButton(this.suma, ButtonType.OPERATOR);
+		setFeaturesButton(this.resta, ButtonType.OPERATOR);
+		setFeaturesButton(this.igual, ButtonType.OPERATOR);
+		setFeaturesButton(this.borra, ButtonType.OPERATOR);
+		setFeaturesButton(this.negativo, ButtonType.OPERATOR);
+		
+		
+		
 		  // Agregar paneles al contenido principal
         contentPanel.add(displeyPanel, BorderLayout.NORTH);
         contentPanel.add(buttonPanel, BorderLayout.CENTER);
@@ -116,12 +137,24 @@ public class Engine implements ActionListener {
 		
 		
 	      // Configurar el frame principal
-        frame.setContentPane(contentPanel);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(400, 500);
-        frame.setLocationRelativeTo(null);
-        frame.setVisible(true);
+        this.frame.setContentPane(contentPanel);
+        this.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.frame.setSize(600, 700);
+        this.frame.setLocationRelativeTo(null);
+        this.frame.setVisible(true);
     }
+	/**
+	 * Metodo que establece el color de los botones y sus caracteristicas 
+	 * @param _Button El boton a configurar
+	 * @param _Type El tipo de boton (REGULAR, OPERATOR)
+	 */
+	private void setFeaturesButton(JButton _button, ButtonType _type ) {
+		if(_type == ButtonType.REGULAR) {
+			_button.setBackground(Color.LIGHT_GRAY);
+		}else
+			_button.setBackground(Color.orange);
+		
+	}
 		
 		
 	
