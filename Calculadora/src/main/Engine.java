@@ -76,7 +76,10 @@ public class Engine implements ActionListener {
 		this.igual= new JButton("=");
 		this.borra= new JButton("C");
 		this.negativo = new JButton("±");
+		//configurar la ventana
 		setSetting();
+		// Añadir ActionListener a los botones
+		addActionEvent();
 	
 		
 	}
@@ -109,7 +112,7 @@ public class Engine implements ActionListener {
 		this.buttonPanel.add(this.negativo);
 		this.buttonPanel.add(this.igual);
 		this.buttonPanel.add(this.divide);	
-		
+		//establecer características de los botones 
 		setFeaturesButton(this.n0, ButtonType.REGULAR);
 		setFeaturesButton(this.n1, ButtonType.REGULAR);
 		setFeaturesButton(this.n2, ButtonType.REGULAR);
@@ -159,17 +162,83 @@ public class Engine implements ActionListener {
 	 * Metodo que añade ActtionListener a los botones
 	 */
 	private void addActionEvent() {
+		this.n0.addActionListener(this);
+		this.n1.addActionListener(this);
+		this.n2.addActionListener(this);
+		this.n3.addActionListener(this);
+		this.n4.addActionListener(this);
+		this.n5.addActionListener(this);
+		this.n6.addActionListener(this);
+		this.n7.addActionListener(this);
+		this.n8.addActionListener(this);
+		this.n9.addActionListener(this);
+		this.divide.addActionListener(this);
+		this.multiplica.addActionListener(this);
+		this.resta.addActionListener(this);
+		this.suma.addActionListener(this);
+		this.igual.addActionListener(this);
+		this.borra.addActionListener(this);
+		this.negativo.addActionListener(this);
 		
 	}
 	/**
 	 * Metodo que realiza las operaciones matemáticas 
 	 */
 	private void operacion() {
+		switch (this.operacion) {
+		case '+':
+			this.resultado= this.num1+ this.num2;
+			break;
+		case '-':
+			this.resultado= this.num1- this.num2;
+			break;
+		case '*':
+			this.resultado= this.num1* this.num2;
+			break;
+		case '/':
+			if(num2 !=0) {
+				this.resultado=this.num1/this.num2;
+			}else {
+				this.display.setText("Error");
+				return;
+			}
+			break;
+			
+		}
+		this.display.setText(String.valueOf(this.resultado));
 		
 	}
 		
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		//recoge el tipo de boton que se a pulsado y su texto
+		Object source = e.getSource();
+		String input_text = e.getActionCommand();
+		
+		if(source == this.borra) {
+			this.display.setText("");
+			this.num1=0;
+			this.num2=0;
+			this.resultado=0;
+			this.operacion=' ';
+		}else if(source== this.igual) {
+			this.num2=Integer.parseInt(this.display.getText());
+			operacion();
+		}else if (source == this.suma|| source == this.resta||source == this.multiplica|| source == this.divide) {
+			this.num1=Integer.parseInt(this.display.getText());
+			this.operacion= input_text.charAt(0);
+			this.display.setText("");				
+		}else if(source == this.negativo) {
+			 // Cambiar el signo del número
+            if (!display.getText().isEmpty()) {
+                int numero = Integer.parseInt(display.getText());
+                numero *= -1;
+                display.setText(String.valueOf(numero));
+            }		
+		}else {
+			this.display.setText(this.display.getText()+input_text);
+		}
+		
 	
 	}
 
