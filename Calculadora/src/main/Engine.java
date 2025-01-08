@@ -2,6 +2,7 @@ package main;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -39,6 +40,7 @@ public class Engine implements ActionListener {
 	private JButton igual;
 	private JButton borra;
 	private JButton negativo;
+	private JButton porcentaje;
 	//tipos de boton numericos o de operación
 	private enum ButtonType {REGULAR, OPERATOR};
 	//Variables para almacenara temporalmente los valores 
@@ -46,6 +48,7 @@ public class Engine implements ActionListener {
 	private int num2;
 	private int resultado;
 	private char operacion;
+
 	
 	/**
 	 * Constructora de la Calculadora
@@ -75,7 +78,7 @@ public class Engine implements ActionListener {
 		this.suma= new JButton("+");
 		this.igual= new JButton("=");
 		this.borra= new JButton("C");
-		this.negativo = new JButton("±");
+		this.porcentaje = new JButton("%");
 		//configurar la ventana
 		setSetting();
 		// Añadir ActionListener a los botones
@@ -91,7 +94,8 @@ public class Engine implements ActionListener {
 		this.contentPanel.setLayout(new BorderLayout());
 		this.displeyPanel.setLayout(new BorderLayout());
 		this.buttonPanel.setLayout(new GridLayout(5,4,5,5));
-		
+		//configurar display
+		this.display.setFont(new Font("Arial",Font.BOLD,30));
 		this.displeyPanel.add(this.display);
 		
 		//añadir botones
@@ -107,11 +111,11 @@ public class Engine implements ActionListener {
 		this.buttonPanel.add(n2);
 		this.buttonPanel.add(n3);
 		this.buttonPanel.add(this.multiplica);	
-		this.buttonPanel.add(this.borra);	
 		this.buttonPanel.add(n0);
-		this.buttonPanel.add(this.negativo);
+		this.buttonPanel.add(this.borra);	
 		this.buttonPanel.add(this.igual);
-		this.buttonPanel.add(this.divide);	
+		this.buttonPanel.add(this.divide);
+		this.buttonPanel.add(this.porcentaje);
 		//establecer características de los botones 
 		setFeaturesButton(this.n0, ButtonType.REGULAR);
 		setFeaturesButton(this.n1, ButtonType.REGULAR);
@@ -129,7 +133,7 @@ public class Engine implements ActionListener {
 		setFeaturesButton(this.resta, ButtonType.OPERATOR);
 		setFeaturesButton(this.igual, ButtonType.OPERATOR);
 		setFeaturesButton(this.borra, ButtonType.OPERATOR);
-		setFeaturesButton(this.negativo, ButtonType.OPERATOR);
+		setFeaturesButton(this.porcentaje, ButtonType.OPERATOR);
 		
 		
 		
@@ -142,7 +146,7 @@ public class Engine implements ActionListener {
 	      // Configurar el frame principal
         this.frame.setContentPane(contentPanel);
         this.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.frame.setSize(600, 700);
+        this.frame.setSize(400, 600);
         this.frame.setLocationRelativeTo(null);
         this.frame.setVisible(true);
     }
@@ -156,6 +160,10 @@ public class Engine implements ActionListener {
 			_button.setBackground(Color.LIGHT_GRAY);
 		}else
 			_button.setBackground(Color.orange);
+		
+		_button.setFont(new Font("Arial",Font.BOLD,20));
+		
+		
 		
 	}
 	/**
@@ -178,7 +186,7 @@ public class Engine implements ActionListener {
 		this.suma.addActionListener(this);
 		this.igual.addActionListener(this);
 		this.borra.addActionListener(this);
-		this.negativo.addActionListener(this);
+		this.porcentaje.addActionListener(this);
 		
 	}
 	/**
@@ -203,18 +211,24 @@ public class Engine implements ActionListener {
 				return;
 			}
 			break;
+		case '%':
+			this.resultado= this.num1*num2/100;
+			break;
 			
 		}
 		this.display.setText(String.valueOf(this.resultado));
 		
 	}
-		
+	/**
+	 * Este metodo se ejecuta cada vez que se pulsa un boton y genera un evento de accion
+	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		//recoge el tipo de boton que se a pulsado y su texto
 		Object source = e.getSource();
+		//obtiene el texto del boton presionado
 		String input_text = e.getActionCommand();
-		
+		//limpia el display y reinicia las variables
 		if(source == this.borra) {
 			this.display.setText("");
 			this.num1=0;
@@ -222,21 +236,35 @@ public class Engine implements ActionListener {
 			this.resultado=0;
 			this.operacion=' ';
 		}else if(source== this.igual) {
-			this.num2=Integer.parseInt(this.display.getText());
-			operacion();
-		}else if (source == this.suma|| source == this.resta||source == this.multiplica|| source == this.divide) {
+			//le asinamos a num2 el tercer elemento del texto en el display y lo convierte a un numero entero
+			String[] parts = this.display.getText().split(" ");
+			if(parts.length==3) {
+				this.num1= Integer.parseInt(parts[0]);
+				this.operacion= parts[1].charAt(0);
+				this.num2= Integer.parseInt(parts[2]);
+				operacion();
+			}
+		
+		}else if (source == this.suma||source == this.multiplica|| source == this.divide|| source==this.porcentaje|| source == this.suma || source == this.multiplica || source == this.divide || source == this.porcentaje || (source == this.resta && !this.display.getText().isEmpty())) {
+			if(this.display.getText().isEmpty()||this.display.getText().endsWith(" ")) {
+				return;
+			}
+			//guardamos el primer numero y el operador
 			this.num1=Integer.parseInt(this.display.getText());
 			this.operacion= input_text.charAt(0);
-			this.display.setText("");				
-		}else if(source == this.negativo) {
-			 // Cambiar el signo del número
-            if (!display.getText().isEmpty()) {
-                int numero = Integer.parseInt(display.getText());
-                numero *= -1;
-                display.setText(String.valueOf(numero));
-            }		
+			this.display.setText(this.display.getText()+ " "+ this.operacion + " ");//mostramos el operador en el display				
+		}else if(source == this.resta)  {
+			//manejar numero negativos usando el boton de resta cuando el display esta vacio
+			if(this.display.getText().isEmpty()) {
+				this.display.setText("-");
+			
+            }else {
+            	//si no esta vacio se añade el texto del boton al diplay
+    			this.display.setText(this.display.getText()+input_text);
+            }
+		
 		}else {
-			this.display.setText(this.display.getText()+input_text);
+			this.display.setText(this.display.getText()+ input_text);
 		}
 		
 	
