@@ -49,10 +49,6 @@ Una calculadora simple pero funcional construida con Java Swing, que proporciona
 * GitHub: [@tuusuario](https://github.com/mayrabpi)
 
 
-## ⭐ Agradecimientos
-
-* Java Swing por proporcionar las herramientas para la interfaz gráfica
-* A todos los contribuidores que ayuden a mejorar este proyecto
 
 ---
 
