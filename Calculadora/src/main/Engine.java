@@ -85,7 +85,7 @@ public class Engine implements ActionListener {
 		this.igual= new JButton("=");
 		this.borra= new JButton("C");
 		this.porcentaje = new JButton("%");
-		this.borraUno = new JButton("←");
+		this.borraUno = new JButton("\u2190");
 		this.elevado= new JButton("^");
 		this.factorial= new JButton("!");
 		//configurar la ventana
@@ -97,7 +97,7 @@ public class Engine implements ActionListener {
 	/**
 	 * Metodo que configura las propiedades de la ventana y organiza los  paneles 
 	 */
-	private void setSetting() {
+	public void setSetting() {
 		//Usar diferentes diseños para organizar los paneles 
 		this.contentPanel.setLayout(new BorderLayout());
 		this.displeyPanel.setLayout(new BorderLayout());
@@ -164,10 +164,10 @@ public class Engine implements ActionListener {
 	
 	/**
 	 * Metodo que establece el color de los botones y sus caracteristicas 
-	 * @param _Button El boton a configurar
-	 * @param _Type El tipo de boton (REGULAR, OPERATOR)
+	 * @param_Button El boton a configurar
+	 * @param_Type El tipo de boton (REGULAR, OPERATOR)
 	 */
-	private void setFeaturesButton(JButton _button, ButtonType _type ) {
+	public void setFeaturesButton(JButton _button, ButtonType _type ) {
 		if(_type == ButtonType.REGULAR) {
 			_button.setBackground(Color.LIGHT_GRAY);//fondo gris para números
 		}else {
@@ -182,7 +182,7 @@ public class Engine implements ActionListener {
 	/**
 	 * Metodo que añade ActtionListener a los botones(qué hacer cuando se pulsan)
 	 */
-	private void addActionEvent() {
+	public void addActionEvent() {
 		this.n0.addActionListener(this);
 		this.n1.addActionListener(this);
 		this.n2.addActionListener(this);
@@ -208,7 +208,7 @@ public class Engine implements ActionListener {
 	/**
 	 * Metodo que realiza las operaciones matemáticas en función del operador
 	 */
-	private void operacion() {
+	public void operacion() {
 		switch (this.operacion) {
 		case '+':
 			this.resultado= this.num1+ this.num2;
@@ -285,7 +285,7 @@ public class Engine implements ActionListener {
 	 * @param numero al que se le calcula el factorial this.num1
 	 * @return resultado
 	 */
-	private int factorial(int numero) {
+	public int factorial(int numero) {
 		if(numero<0) {
 			this.display.setText("Introduce numero mayor a 0");
 		}
