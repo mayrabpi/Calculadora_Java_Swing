@@ -16,16 +16,16 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 /**
  * Clase principal de la calculadora.
- * Implementa ActionListener para manejar los eventos de los botones 
+ *  Esta clase Implementa ActionListener para gestionar los eventos de los botones 
  */
 public class Engine implements ActionListener {
-	
+	//componentes básicos principales
 	private JFrame frame;
 	private JPanel contentPanel;//panel que ocupa toda la ventana
 	private JPanel displeyPanel;//panel norte que contiene el display
 	private JPanel buttonPanel;//panel sur que contiene los botones
 	private JTextField display;//display
-	//Botones
+	//Botones de la calculadora
 	private JButton n0;
 	private JButton n1;
 	private JButton n2;
@@ -47,27 +47,27 @@ public class Engine implements ActionListener {
 	private JButton elevado;
 	private JButton factorial;
 
-	//tipos de boton numericos o de operación
+	//tipos de boton: númericos o de operación
 	private enum ButtonType {REGULAR, OPERATOR};
-	//Variables para almacenara temporalmente los valores 
+	
+	//Variables para almacenara temporalmente los números y el resultado
 	private int num1;
 	private int num2;
 	private int resultado;
-	private char operacion;
-
+	private char operacion;//operador actual (+,-,*,/,etc)
 	
 	/**
 	 * Constructora de la Calculadora
 	 * Inicializa los componentes graficos y configura la interfaz
 	 */
 	public Engine() {
-		//inicializamos el marco de la ventana
+		//Crear la ventana principal y los paneles
 		this.frame = new JFrame("Calculadora");
 		this.contentPanel= new JPanel();
 		this.displeyPanel= new JPanel();
 		this.buttonPanel= new JPanel();
 		this.display = new JTextField();
-		//inicializamos los botones
+		//inicializar los botones y sus textos
 		this.n0 = new JButton("0");
 		this.n1 = new JButton("1");
 		this.n2 = new JButton("2");
@@ -91,23 +91,22 @@ public class Engine implements ActionListener {
 		//configurar la ventana
 		setSetting();
 		// Añadir ActionListener a los botones
-		addActionEvent();
-	
-		
+		addActionEvent();		
 	}
+	
 	/**
-	 * Metodo que configura las propiedades de la ventana y de los paneles 
+	 * Metodo que configura las propiedades de la ventana y organiza los  paneles 
 	 */
 	private void setSetting() {
-		//configurar el layaut y agregar paneles
+		//Usar diferentes diseños para organizar los paneles 
 		this.contentPanel.setLayout(new BorderLayout());
 		this.displeyPanel.setLayout(new BorderLayout());
-		this.buttonPanel.setLayout(new GridLayout(4,5,5,5));
-		//configurar display
+		this.buttonPanel.setLayout(new GridLayout(4,5,5,5));//cuadrícula de 4 filas y 5 columnas
+		//configurar el campo del texto del display
 		this.display.setFont(new Font("Arial",Font.BOLD,30));
 		this.displeyPanel.add(this.display);
 		
-		//añadir botones
+		//añadir botones al panel de botones 
 		this.buttonPanel.add(n7);
 		this.buttonPanel.add(n8);
 		this.buttonPanel.add(n9);
@@ -129,7 +128,7 @@ public class Engine implements ActionListener {
 		this.buttonPanel.add(this.borraUno);
 		this.buttonPanel.add(this.factorial);
 		
-		//establecer características de los botones 
+		//establecer características visuales de los botones 
 		setFeaturesButton(this.n0, ButtonType.REGULAR);
 		setFeaturesButton(this.n1, ButtonType.REGULAR);
 		setFeaturesButton(this.n2, ButtonType.REGULAR);
@@ -150,23 +149,19 @@ public class Engine implements ActionListener {
 		setFeaturesButton(this.borraUno,ButtonType.OPERATOR);
 		setFeaturesButton(this.elevado,ButtonType.OPERATOR);
 		setFeaturesButton(this.factorial,ButtonType.OPERATOR);
-		
-		
-		
-		  // Agregar paneles al contenido principal
-        contentPanel.add(displeyPanel, BorderLayout.NORTH);
-        contentPanel.add(buttonPanel, BorderLayout.CENTER);
-        //contentPanel.add(this.igual, BorderLayout.SOUTH);
-		
-		
-		
-	      // Configurar el frame principal
+			
+		  // Añadir los  paneles a la ventana principal
+        contentPanel.add(displeyPanel, BorderLayout.NORTH);//display parte superior
+        contentPanel.add(buttonPanel, BorderLayout.CENTER);//displey en el centro
+       	
+	      // Configurar las propiedades de la ventana
         this.frame.setContentPane(contentPanel);
-        this.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.frame.setSize(400, 600);
-        this.frame.setLocationRelativeTo(null);
-        this.frame.setVisible(true);
+        this.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);//cerrar la aplicación al cerrar la ventana
+        this.frame.setSize(400, 500);//tamaño de la ventana
+        this.frame.setLocationRelativeTo(null);//centrar ventana
+        this.frame.setVisible(true);//mostrar ventana
     }
+	
 	/**
 	 * Metodo que establece el color de los botones y sus caracteristicas 
 	 * @param _Button El boton a configurar
@@ -174,16 +169,18 @@ public class Engine implements ActionListener {
 	 */
 	private void setFeaturesButton(JButton _button, ButtonType _type ) {
 		if(_type == ButtonType.REGULAR) {
-			_button.setBackground(Color.LIGHT_GRAY);
-		}else
-			_button.setBackground(Color.orange);
+			_button.setBackground(Color.LIGHT_GRAY);//fondo gris para números
+		}else {
+			_button.setBackground(Color.pink);//fondo rosa para para operadores
+		    _button.setForeground(Color.WHITE);//texto banco
+		}
 		
-		_button.setFont(new Font("Arial",Font.BOLD,20));
-		_button.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-	
+		_button.setFont(new Font("Arial",Font.BOLD,20));//fuente grande y en negrita
+		_button.setBorder(BorderFactory.createLineBorder(Color.white));//bordes	blancos
 	}
+	
 	/**
-	 * Metodo que añade ActtionListener a los botones
+	 * Metodo que añade ActtionListener a los botones(qué hacer cuando se pulsan)
 	 */
 	private void addActionEvent() {
 		this.n0.addActionListener(this);
@@ -209,7 +206,7 @@ public class Engine implements ActionListener {
 		
 	}
 	/**
-	 * Metodo que realiza las operaciones matemáticas 
+	 * Metodo que realiza las operaciones matemáticas en función del operador
 	 */
 	private void operacion() {
 		switch (this.operacion) {
@@ -226,18 +223,17 @@ public class Engine implements ActionListener {
             this.resultado = this.num1 / this.num2;   
             break;
 		case '%':
-			this.resultado= (this.num1*(this.num2/100));
+			this.resultado=(this.num1 *this.num2)/100;
 			break;
 		case '^':
 			this.resultado=(int)Math.pow(this.num1, this.num2);
-			break;
-			
+			break;		
 		}
-		this.display.setText(String.valueOf(this.resultado));//
+		this.display.setText(String.valueOf(this.resultado));//mostrar el resultado
 		
 	}
 	/**
-	 * Este metodo se ejecuta cada vez que se pulsa un boton y genera un evento de accion
+	 * Este metodo detecta qué botón se presionó y realiza la accion correspondiente
 	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
@@ -247,7 +243,7 @@ public class Engine implements ActionListener {
 		String input_text= e.getActionCommand();
 		
 		String texto = this.display.getText();
-		String regex = "(-?\\d+)([%+-x/^])(-?\\d)";
+		String regex = "(-?\\d+)([%+-x/^])(-?\\d+)";
 		Pattern pattern= Pattern.compile(regex);
 		Matcher matcher= pattern.matcher(texto);
 		
@@ -258,7 +254,7 @@ public class Engine implements ActionListener {
 		}else {
 			this.resultado=0;
 		}
-		//boton "C" borra
+		//boton "C" borra limpia el display
 		if(source==this.borra) {
 			this.display.setText("");
 			this.num1=0;
@@ -266,26 +262,29 @@ public class Engine implements ActionListener {
 			this.resultado=0;
 			this.operacion=' ';
 		}else if(source== this.igual) {//botón "=" 
-			if(this.operacion=='/' && this.num2==0) {//division por 0
+			if(this.operacion=='/' && this.num2==0) {//control de error en division por 0
 				this.display.setText("No se puede dividir por 0");
-			}else {
+			}else {//si pulsa otra operación llamamos al metodo operación e imprimimos el resultado
 				operacion();
 				this.display.setText(String.valueOf(this.resultado));		
 			}	
-		}else if(source==this.borraUno) {
-			if(!display.getText().isEmpty()) {
+		}else if(source==this.borraUno) {//borra uno a uno los números u operadores 
+			if(!display.getText().isEmpty()) {//si el display no esta vacio 
 				display.setText(display.getText().substring(0,display.getText().length()-1));
 			}
-		}else if(source==this.factorial) {
+		}else if(source==this.factorial) {//boton (!) para calcular el factorial de un numero entero
 			int numero = Integer.parseInt(display.getText());
 			int resultado = factorial(numero);
-			display.setText(String.valueOf(resultado));
-			
-			
-		}else {
+			display.setText(String.valueOf(resultado));	
+		}else {//para cualquier otro boton añade el texto al display
 			display.setText(display.getText()+ input_text);
 		}
 	}
+	/**
+	 * Metodo que calcula el factorial de un numero
+	 * @param numero al que se le calcula el factorial this.num1
+	 * @return resultado
+	 */
 	private int factorial(int numero) {
 		if(numero<0) {
 			this.display.setText("Introduce numero mayor a 0");
