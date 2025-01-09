@@ -9,6 +9,7 @@ import java.awt.event.ActionListener;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -84,6 +85,7 @@ public class Engine implements ActionListener {
 		this.borra= new JButton("C");
 		this.porcentaje = new JButton("%");
 		this.borraUno = new JButton("←");
+		this.elevado= new JButton("^");
 		//configurar la ventana
 		setSetting();
 		// Añadir ActionListener a los botones
@@ -122,6 +124,7 @@ public class Engine implements ActionListener {
 		this.buttonPanel.add(this.divide);
 		this.buttonPanel.add(this.porcentaje);
 		this.buttonPanel.add(this.borraUno);
+		this.buttonPanel.add(this.elevado);
 		//establecer características de los botones 
 		setFeaturesButton(this.n0, ButtonType.REGULAR);
 		setFeaturesButton(this.n1, ButtonType.REGULAR);
@@ -141,6 +144,7 @@ public class Engine implements ActionListener {
 		setFeaturesButton(this.borra, ButtonType.OPERATOR);
 		setFeaturesButton(this.porcentaje, ButtonType.OPERATOR);
 		setFeaturesButton(this.borraUno,ButtonType.OPERATOR);
+		setFeaturesButton(this.elevado,ButtonType.OPERATOR);
 		
 		
 		
@@ -169,7 +173,10 @@ public class Engine implements ActionListener {
 		}else
 			_button.setBackground(Color.orange);
 		
-		_button.setFont(new Font("Arial",Font.BOLD,20));	
+		_button.setFont(new Font("Arial",Font.BOLD,20));
+		//_button.setFocusable(false);
+		_button.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+	
 	}
 	/**
 	 * Metodo que añade ActtionListener a los botones
@@ -192,6 +199,8 @@ public class Engine implements ActionListener {
 		this.igual.addActionListener(this);
 		this.borra.addActionListener(this);
 		this.porcentaje.addActionListener(this);
+		this.borraUno.addActionListener(this);
+		this.elevado.addActionListener(this);
 		
 	}
 	/**
@@ -212,7 +221,10 @@ public class Engine implements ActionListener {
             this.resultado = this.num1 / this.num2;   
             break;
 		case '%':
-			this.resultado= this.num1*(this.num2/100);
+			this.resultado= (this.num1*(this.num2/100));
+			break;
+		case '^':
+			this.resultado=(int)Math.pow(this.num1, this.num2);
 			break;
 			
 		}
@@ -250,16 +262,17 @@ public class Engine implements ActionListener {
 			this.operacion=' ';
 		}else if(source== this.igual) {//botón "=" 
 			if(this.operacion=='/' && this.num2==0) {//division por 0
-				this.display.setText("Error");
+				this.display.setText("No se puede dividir por 0");
 			}else {
 				operacion();
-				this.display.setText(String.valueOf(this.resultado));
-				
+				this.display.setText(String.valueOf(this.resultado));		
+			}	
+		}else if(source==this.borraUno) {
+			if(!display.getText().isEmpty()) {
+				display.setText(display.getText().substring(0,display.getText().length()-1));
 			}
-			
-			
-		}else {//otros botones 
-			this.display.setText(this.display.getText()+ input_text);
+		}else {
+			display.setText(display.getText()+ input_text);
 		}
 		
 	
