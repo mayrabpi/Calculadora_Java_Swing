@@ -169,10 +169,7 @@ public class Engine implements ActionListener {
 		}else
 			_button.setBackground(Color.orange);
 		
-		_button.setFont(new Font("Arial",Font.BOLD,20));
-		
-		
-		
+		_button.setFont(new Font("Arial",Font.BOLD,20));	
 	}
 	/**
 	 * Metodo que añade ActtionListener a los botones
@@ -212,18 +209,14 @@ public class Engine implements ActionListener {
 			this.resultado= this.num1* this.num2;
 			break;
 		case '/':
-			if(this.num2 ==0) {
-				this.display.setText("Error");
-				return;
-			}
-			this.resultado= this.num1/this.num2;
-			break;
+            this.resultado = this.num1 / this.num2;   
+            break;
 		case '%':
-			this.resultado= this.num1*num2/100;
+			this.resultado= this.num1*(this.num2/100);
 			break;
 			
 		}
-		this.display.setText(String.valueOf(this.resultado));
+		this.display.setText(String.valueOf(this.resultado));//
 		
 	}
 	/**
@@ -231,11 +224,13 @@ public class Engine implements ActionListener {
 	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		//recoge el tipo de boton que se ha pulsado
 		Object source = e.getSource();
+		//obtiene el texto del boton presionado
 		String input_text= e.getActionCommand();
 		
 		String texto = this.display.getText();
-		String regex = "(-?\\d+)([+-x/^])(-?\\d)";
+		String regex = "(-?\\d+)([%+-x/^])(-?\\d)";
 		Pattern pattern= Pattern.compile(regex);
 		Matcher matcher= pattern.matcher(texto);
 		
@@ -246,18 +241,27 @@ public class Engine implements ActionListener {
 		}else {
 			this.resultado=0;
 		}
-		if(source==this.borra) {//botón C
+		//boton "C" borra
+		if(source==this.borra) {
 			this.display.setText("");
 			this.num1=0;
 			this.num2=0;
 			this.resultado=0;
-		}else if(source== this.igual) {//botón =
+			this.operacion=' ';
+		}else if(source== this.igual) {//botón "=" 
+			if(this.operacion=='/' && this.num2==0) {//division por 0
+				this.display.setText("Error");
+			}else {
+				operacion();
+				this.display.setText(String.valueOf(this.resultado));
+				
+			}
 			
-			operacion();
-			this.display.setText(String.valueOf(this.resultado));
+			
 		}else {//otros botones 
 			this.display.setText(this.display.getText()+ input_text);
 		}
+		
 	
 	}
 }
