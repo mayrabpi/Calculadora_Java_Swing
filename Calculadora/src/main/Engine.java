@@ -45,6 +45,7 @@ public class Engine implements ActionListener {
 	private JButton porcentaje;
 	private JButton borraUno;
 	private JButton elevado;
+	private JButton factorial;
 
 	//tipos de boton numericos o de operación
 	private enum ButtonType {REGULAR, OPERATOR};
@@ -86,6 +87,7 @@ public class Engine implements ActionListener {
 		this.porcentaje = new JButton("%");
 		this.borraUno = new JButton("←");
 		this.elevado= new JButton("^");
+		this.factorial= new JButton("!");
 		//configurar la ventana
 		setSetting();
 		// Añadir ActionListener a los botones
@@ -100,7 +102,7 @@ public class Engine implements ActionListener {
 		//configurar el layaut y agregar paneles
 		this.contentPanel.setLayout(new BorderLayout());
 		this.displeyPanel.setLayout(new BorderLayout());
-		this.buttonPanel.setLayout(new GridLayout(5,4,5,5));
+		this.buttonPanel.setLayout(new GridLayout(4,5,5,5));
 		//configurar display
 		this.display.setFont(new Font("Arial",Font.BOLD,30));
 		this.displeyPanel.add(this.display);
@@ -109,22 +111,24 @@ public class Engine implements ActionListener {
 		this.buttonPanel.add(n7);
 		this.buttonPanel.add(n8);
 		this.buttonPanel.add(n9);
-		this.buttonPanel.add(this.suma);	
+		this.buttonPanel.add(this.resta);	
+		this.buttonPanel.add(this.suma);
 		this.buttonPanel.add(n4);
 		this.buttonPanel.add(n5);
 		this.buttonPanel.add(n6);
-		this.buttonPanel.add(this.resta);	
+		this.buttonPanel.add(this.multiplica);	
+		this.buttonPanel.add(this.divide);
 		this.buttonPanel.add(n1);
 		this.buttonPanel.add(n2);
 		this.buttonPanel.add(n3);
-		this.buttonPanel.add(this.multiplica);	
+		this.buttonPanel.add(this.porcentaje);
+		this.buttonPanel.add(this.elevado);
+		this.buttonPanel.add(this.igual);
 		this.buttonPanel.add(n0);
 		this.buttonPanel.add(this.borra);	
-		this.buttonPanel.add(this.igual);
-		this.buttonPanel.add(this.divide);
-		this.buttonPanel.add(this.porcentaje);
 		this.buttonPanel.add(this.borraUno);
-		this.buttonPanel.add(this.elevado);
+		this.buttonPanel.add(this.factorial);
+		
 		//establecer características de los botones 
 		setFeaturesButton(this.n0, ButtonType.REGULAR);
 		setFeaturesButton(this.n1, ButtonType.REGULAR);
@@ -145,6 +149,7 @@ public class Engine implements ActionListener {
 		setFeaturesButton(this.porcentaje, ButtonType.OPERATOR);
 		setFeaturesButton(this.borraUno,ButtonType.OPERATOR);
 		setFeaturesButton(this.elevado,ButtonType.OPERATOR);
+		setFeaturesButton(this.factorial,ButtonType.OPERATOR);
 		
 		
 		
@@ -174,7 +179,6 @@ public class Engine implements ActionListener {
 			_button.setBackground(Color.orange);
 		
 		_button.setFont(new Font("Arial",Font.BOLD,20));
-		//_button.setFocusable(false);
 		_button.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 	
 	}
@@ -201,6 +205,7 @@ public class Engine implements ActionListener {
 		this.porcentaje.addActionListener(this);
 		this.borraUno.addActionListener(this);
 		this.elevado.addActionListener(this);
+		this.factorial.addActionListener(this);
 		
 	}
 	/**
@@ -271,10 +276,24 @@ public class Engine implements ActionListener {
 			if(!display.getText().isEmpty()) {
 				display.setText(display.getText().substring(0,display.getText().length()-1));
 			}
+		}else if(source==this.factorial) {
+			int numero = Integer.parseInt(display.getText());
+			int resultado = factorial(numero);
+			display.setText(String.valueOf(resultado));
+			
+			
 		}else {
 			display.setText(display.getText()+ input_text);
 		}
-		
-	
+	}
+	private int factorial(int numero) {
+		if(numero<0) {
+			this.display.setText("Introduce numero mayor a 0");
+		}
+		int resultado=1;
+		for(int i =1;i<=numero;i++) {
+			resultado*=i;
+		}
+		return resultado;
 	}
 }
