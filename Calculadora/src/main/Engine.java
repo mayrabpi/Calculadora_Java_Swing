@@ -6,6 +6,8 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -39,8 +41,10 @@ public class Engine implements ActionListener {
 	private JButton suma;
 	private JButton igual;
 	private JButton borra;
-	private JButton negativo;
 	private JButton porcentaje;
+	private JButton borraUno;
+	private JButton elevado;
+
 	//tipos de boton numericos o de operación
 	private enum ButtonType {REGULAR, OPERATOR};
 	//Variables para almacenara temporalmente los valores 
@@ -73,12 +77,13 @@ public class Engine implements ActionListener {
 		this.n8 = new JButton("8");
 		this.n9 = new JButton("9");
 		this.divide = new JButton("/");
-		this.multiplica = new JButton("*");
+		this.multiplica = new JButton("x");
 		this.resta = new JButton("-");
 		this.suma= new JButton("+");
 		this.igual= new JButton("=");
 		this.borra= new JButton("C");
 		this.porcentaje = new JButton("%");
+		this.borraUno = new JButton("←");
 		//configurar la ventana
 		setSetting();
 		// Añadir ActionListener a los botones
@@ -116,6 +121,7 @@ public class Engine implements ActionListener {
 		this.buttonPanel.add(this.igual);
 		this.buttonPanel.add(this.divide);
 		this.buttonPanel.add(this.porcentaje);
+		this.buttonPanel.add(this.borraUno);
 		//establecer características de los botones 
 		setFeaturesButton(this.n0, ButtonType.REGULAR);
 		setFeaturesButton(this.n1, ButtonType.REGULAR);
@@ -134,12 +140,14 @@ public class Engine implements ActionListener {
 		setFeaturesButton(this.igual, ButtonType.OPERATOR);
 		setFeaturesButton(this.borra, ButtonType.OPERATOR);
 		setFeaturesButton(this.porcentaje, ButtonType.OPERATOR);
+		setFeaturesButton(this.borraUno,ButtonType.OPERATOR);
 		
 		
 		
 		  // Agregar paneles al contenido principal
         contentPanel.add(displeyPanel, BorderLayout.NORTH);
         contentPanel.add(buttonPanel, BorderLayout.CENTER);
+        //contentPanel.add(this.igual, BorderLayout.SOUTH);
 		
 		
 		
@@ -200,16 +208,15 @@ public class Engine implements ActionListener {
 		case '-':
 			this.resultado= this.num1- this.num2;
 			break;
-		case '*':
+		case 'x':
 			this.resultado= this.num1* this.num2;
 			break;
 		case '/':
-			if(num2 !=0) {
-				this.resultado=this.num1/this.num2;
-			}else {
+			if(this.num2 ==0) {
 				this.display.setText("Error");
 				return;
 			}
+			this.resultado= this.num1/this.num2;
 			break;
 		case '%':
 			this.resultado= this.num1*num2/100;
@@ -224,50 +231,33 @@ public class Engine implements ActionListener {
 	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		//recoge el tipo de boton que se a pulsado y su texto
 		Object source = e.getSource();
-		//obtiene el texto del boton presionado
-		String input_text = e.getActionCommand();
-		//limpia el display y reinicia las variables
-		if(source == this.borra) {
+		String input_text= e.getActionCommand();
+		
+		String texto = this.display.getText();
+		String regex = "(-?\\d+)([+-x/^])(-?\\d)";
+		Pattern pattern= Pattern.compile(regex);
+		Matcher matcher= pattern.matcher(texto);
+		
+		if(matcher.matches()) {
+			this.num1= Integer.parseInt(matcher.group(1));
+			this.operacion=matcher.group(2).charAt(0);
+			this.num2=Integer.parseInt(matcher.group(3));
+		}else {
+			this.resultado=0;
+		}
+		if(source==this.borra) {//botón C
 			this.display.setText("");
 			this.num1=0;
 			this.num2=0;
 			this.resultado=0;
-			this.operacion=' ';
-		}else if(source== this.igual) {
-			//le asinamos a num2 el tercer elemento del texto en el display y lo convierte a un numero entero
-			String[] parts = this.display.getText().split(" ");
-			if(parts.length==3) {
-				this.num1= Integer.parseInt(parts[0]);
-				this.operacion= parts[1].charAt(0);
-				this.num2= Integer.parseInt(parts[2]);
-				operacion();
-			}
-		
-		}else if (source == this.suma||source == this.multiplica|| source == this.divide|| source==this.porcentaje|| source == this.suma || source == this.multiplica || source == this.divide || source == this.porcentaje || (source == this.resta && !this.display.getText().isEmpty())) {
-			if(this.display.getText().isEmpty()||this.display.getText().endsWith(" ")) {
-				return;
-			}
-			//guardamos el primer numero y el operador
-			this.num1=Integer.parseInt(this.display.getText());
-			this.operacion= input_text.charAt(0);
-			this.display.setText(this.display.getText()+ " "+ this.operacion + " ");//mostramos el operador en el display				
-		}else if(source == this.resta)  {
-			//manejar numero negativos usando el boton de resta cuando el display esta vacio
-			if(this.display.getText().isEmpty()) {
-				this.display.setText("-");
+		}else if(source== this.igual) {//botón =
 			
-            }else {
-            	//si no esta vacio se añade el texto del boton al diplay
-    			this.display.setText(this.display.getText()+input_text);
-            }
-		
-		}else {
+			operacion();
+			this.display.setText(String.valueOf(this.resultado));
+		}else {//otros botones 
 			this.display.setText(this.display.getText()+ input_text);
 		}
-		
 	
 	}
-
 }
