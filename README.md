@@ -55,7 +55,7 @@ Una calculadora simple pero funcional construida con Java Swing, que proporciona
 ## 👥 Autor
 
 * Mayra 
-* GitHub: [@tuusuario](https://github.com/mayrabpi)
+* GitHub: [@mayrabpi](https://github.com/mayrabpi)
 
 
 
