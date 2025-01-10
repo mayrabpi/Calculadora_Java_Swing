@@ -16,7 +16,7 @@ Una calculadora simple pero funcional construida con Java Swing, que proporciona
   * Elevado (^)
   * Factorial (!)
 * Función de borrado (C)
-* Función de boton retroceso (⬅)
+* Función de boton retroceso (←)
 * Soporte para números negativos
 * Manejo de errores para división por cero
 * Interfaz amigable con colores distintivos para botones numéricos y operaciones
@@ -38,7 +38,7 @@ Una calculadora simple pero funcional construida con Java Swing, que proporciona
 6. Para boton de Elevado presiona el primer número luego presiona ^ y luego el número al lo quieras elevar
 7. Para boton de Factorial, presiona el número al que quieras calcular su factorial y luego presiona ! automáticamente tendrás el resultado
 8. Usa C para limpiar y comenzar un nuevo cálculo
-9. Usa ⬅ pora retroceder y borrar el último elemento introducido
+9. Usa ← pora retroceder y borrar el último elemento introducido
 10. Para números negativos, presiona - antes de ingresar el número
 
 ## 🛠️ Detalles Técnicos
