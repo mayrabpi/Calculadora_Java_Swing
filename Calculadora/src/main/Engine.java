@@ -103,11 +103,12 @@ public class Engine implements ActionListener {
 	public void setSetting() {
 		// Usar diferentes diseños para organizar los paneles
 		this.contentPanel.setLayout(new BorderLayout());
-		this.displeyPanel.setLayout(new BorderLayout());
+		this.displeyPanel.setLayout(new BorderLayout(40,50));
 		this.buttonPanel.setLayout(new GridLayout(4, 5, 5, 5));// cuadrícula de 4 filas y 5 columnas
 		// configurar el campo del texto del display
-		this.display.setFont(new Font("Arial", Font.BOLD, 30));
+		this.display.setFont(new Font("Arial", Font.BOLD, 50));
 		this.displeyPanel.add(this.display);
+		
 
 		// añadir botones al panel de botones
 		this.buttonPanel.add(n7);
