@@ -1,6 +1,8 @@
 # Calculadora Java
 
 Una calculadora simple pero funcional construida con Java Swing, que proporciona una interfaz gráfica de usuario limpia, para operaciones aritméticas básicas.
+
+
 ![Vista previa de la calculadora](calcuJava-1.PNG)
 
 ## 🔍 Características
