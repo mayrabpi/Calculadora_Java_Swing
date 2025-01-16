@@ -2,12 +2,16 @@ package main;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Desktop;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -267,6 +271,7 @@ public class Engine implements ActionListener{
 		 * @param_Type El tipo de boton (REGULAR, OPERATOR)
 		 */
 		public void setFeaturesButton(JButton _button, ButtonType _type) {
+			_button.setPreferredSize(new Dimension(40,60));
 			//REGULAR, OPERATOR,BASE,EXADECIMAL, EXTRAS, MARCA
 			switch(_type) {
 			case REGULAR:
@@ -296,12 +301,11 @@ public class Engine implements ActionListener{
 				_button.setBorder(BorderFactory.createLineBorder(Color.white));// bordes blancos
 				break;
 			case MARCA:
+				_button.setPreferredSize(new Dimension(80,40));
 				_button.setBackground(Color.pink);
 				_button.setFont(new Font("Arial", Font.BOLD, 20));// fuente grande y en negrita
 				_button.setBorder(BorderFactory.createLineBorder(Color.white));// bordes blancos
-				break;
-				
-			
+				break;		
 			}
 		}
 		
@@ -333,6 +337,15 @@ public class Engine implements ActionListener{
 			this.octBoton.addActionListener(this);
 			this.binBoton.addActionListener(this);
 			this.decBoton.addActionListener(this);
+			this.A.addActionListener(this);
+			this.B.addActionListener(this);
+			this.C.addActionListener(this);
+			this.D.addActionListener(this);
+			this.E.addActionListener(this);
+			this.F.addActionListener(this);
+			this.info.addActionListener(this);
+			this.casio.addActionListener(this);
+			this.owner.addActionListener(this);
 			
 		}
 
@@ -408,8 +421,23 @@ public class Engine implements ActionListener{
 				int numero = Integer.parseInt(display.getText());
 				int resultado = factorial(numero);
 				this.display.setText(String.valueOf(resultado));
-			} else {// para cualquier otro boton añade el texto al display
-				this.display.setText(this.display.getText() + input_text);
+			} else if ( source==this.casio) {
+				try {
+					Desktop.getDesktop().browse(new URI("https://www.casio.com"));
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (URISyntaxException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			} else if(source==this.info){
+				String mensaje="Calculadora cietífica";
+				new VentanaEmergente(mensaje).setVisible(true);
+				
+			}else if (source == this.owner) {
+				String mensaje ="Desarrollado por:Mayra Barrantes Pi\nContacto: https://github.com/mayrabpi";
+				new VentanaEmergente(mensaje).setVisible(true);
 			}
 		}
 		
@@ -436,3 +464,6 @@ public class Engine implements ActionListener{
 	
 
 }
+/*else {// para cualquier otro boton añade el texto al display
+				this.display.setText(this.display.getText() + input_text);
+			}*/
