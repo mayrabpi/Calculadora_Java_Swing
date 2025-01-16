@@ -76,6 +76,7 @@ public class Engine implements ActionListener{
 			this.displeyPanel = new JPanel();
 			this.buttonPanel = new JPanel();
 			this.display = new JTextField();
+			this.basepanel= new JPanel();
 			// inicializar los botones y sus textos
 			this.n0 = new JButton("0");
 			this.n1 = new JButton("1");
@@ -115,8 +116,14 @@ public class Engine implements ActionListener{
 			this.displeyPanel.setLayout(new BorderLayout(40,50));
 			this.buttonPanel.setLayout(new GridLayout(4, 5, 5, 5));// cuadrícula de 4 filas y 5 columnas
 			// configurar el campo del texto del display
+			this.basepanel.setLayout(new GridLayout(1,4,5,5));
 			this.display.setFont(new Font("Arial", Font.BOLD, 50));
 			this.displeyPanel.add(this.display);
+			
+			this.basepanel.add(this.hexBoton);
+			this.basepanel.add(this.decBoton);
+			this.basepanel.add(this.octBoton);
+			this.basepanel.add(this.binButon);
 			
 
 			// añadir botones al panel de botones
@@ -164,7 +171,9 @@ public class Engine implements ActionListener{
 			setFeaturesButton(this.factorial, ButtonType.OPERATOR);
 
 			// Añadir los paneles a la ventana principal
+			
 			this.contentPanel.add(this.displeyPanel, BorderLayout.NORTH);// display parte superior
+			this.contentPanel.add(this.basepanel,BorderLayout.SOUTH);
 			this.contentPanel.add(this.buttonPanel, BorderLayout.CENTER);// displey en el centro
 
 			// Configurar las propiedades de la ventana
@@ -218,6 +227,10 @@ public class Engine implements ActionListener{
 			this.botonRetroceso.addActionListener(this);
 			this.elevado.addActionListener(this);
 			this.factorial.addActionListener(this);
+			this.hexBoton.addActionListener(this);
+			this.octBoton.addActionListener(this);
+			this.binButon.addActionListener(this);
+			this.decBoton.addActionListener(this);
 
 		}
 
