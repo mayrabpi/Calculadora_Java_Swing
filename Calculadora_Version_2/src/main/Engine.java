@@ -24,6 +24,7 @@ public class Engine implements ActionListener{
 	private JPanel displeyPanel;// panel norte que contiene el display
 	private JPanel buttonPanel;// panel sur que contiene los botones
 	private JTextField display;// display
+	private JPanel basepanel;//panel de los botones cambio de base 
 	// Botones de la calculadora
 	private JButton n0;
 	private JButton n1;
@@ -45,6 +46,14 @@ public class Engine implements ActionListener{
 	private JButton botonRetroceso;
 	private JButton elevado;
 	private JButton factorial;
+	private JButton hexBoton;
+	private JButton decBoton;
+	private JButton octBoton;
+	private JButton binButon;
+	
+	//variable para controlar la base actual
+	private int currentBase = 10;//por defecto decimal
+	
 
 	// tipos de boton: númericos o de operación
 	private enum ButtonType {
@@ -88,6 +97,10 @@ public class Engine implements ActionListener{
 			this.botonRetroceso = new JButton("\u2190");
 			this.elevado = new JButton("^");
 			this.factorial = new JButton("!");
+			this.hexBoton= new JButton("HEX");
+			this.decBoton = new JButton("DEC");
+			this.binButon= new JButton("BIN");
+			this.octBoton= new JButton("OCT");
 			// configurar la ventana
 			setSetting();
 			// Añadir ActionListener a los botones
