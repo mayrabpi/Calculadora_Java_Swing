@@ -2,6 +2,8 @@ package main;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -12,8 +14,11 @@ import java.util.regex.Pattern;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+
+
 
 
 
@@ -24,8 +29,11 @@ public class Engine implements ActionListener{
 	private JPanel displeyPanel;// panel norte que contiene el display
 	private JPanel buttonPanel;// panel sur que contiene los botones
 	private JTextField display;// display
-	private JPanel basepanel;//panel de los botones cambio de base 
-	// Botones de la calculadora
+	
+	private JPanel basepanel;//
+	private JTextField infoPanel;
+	private JPanel marcaPanel;
+	// Botones de la calculadora v1
 	private JButton n0;
 	private JButton n1;
 	private JButton n2;
@@ -46,10 +54,22 @@ public class Engine implements ActionListener{
 	private JButton botonRetroceso;
 	private JButton elevado;
 	private JButton factorial;
+	//botones calculadora v2
+	private JButton A;
+	private JButton B;
+	private JButton C;
+	private JButton D;
+	private JButton E;
+	private JButton F;
 	private JButton hexBoton;
 	private JButton decBoton;
 	private JButton octBoton;
-	private JButton binButon;
+	private JButton binBoton;
+	private JButton casio;
+	private JButton info;
+	private JButton owner;
+	
+	
 	
 	//variable para controlar la base actual
 	private int currentBase = 10;//por defecto decimal
@@ -57,7 +77,7 @@ public class Engine implements ActionListener{
 
 	// tipos de boton: númericos o de operación
 	private enum ButtonType {
-		REGULAR, OPERATOR
+		REGULAR, OPERATOR,BASE,EXADECIMAL, EXTRAS, MARCA
 	};
 	// Variables para almacenara temporalmente los números y el resultado
 		private int num1;
@@ -76,7 +96,12 @@ public class Engine implements ActionListener{
 			this.displeyPanel = new JPanel();
 			this.buttonPanel = new JPanel();
 			this.display = new JTextField();
+			
 			this.basepanel= new JPanel();
+			this.infoPanel = new JTextField("info",25);
+			this.marcaPanel= new JPanel();
+	
+			
 			// inicializar los botones y sus textos
 			this.n0 = new JButton("0");
 			this.n1 = new JButton("1");
@@ -98,10 +123,24 @@ public class Engine implements ActionListener{
 			this.botonRetroceso = new JButton("\u2190");
 			this.elevado = new JButton("^");
 			this.factorial = new JButton("!");
+			//botones version 2
 			this.hexBoton= new JButton("HEX");
 			this.decBoton = new JButton("DEC");
-			this.binButon= new JButton("BIN");
+			this.binBoton= new JButton("BIN");
 			this.octBoton= new JButton("OCT");
+			this.info = new JButton("INFO");
+			this.owner= new JButton("OWNER");
+			this.casio= new JButton("CASIO");
+			this.A= new JButton("A");
+			this.B= new JButton("B");
+			this.C= new JButton("C");
+			this.D= new JButton("D");
+			this.E= new JButton("E");
+			this.F= new JButton("F");
+		
+		
+		
+			
 			// configurar la ventana
 			setSetting();
 			// Añadir ActionListener a los botones
@@ -113,37 +152,56 @@ public class Engine implements ActionListener{
 		public void setSetting() {
 			// Usar diferentes diseños para organizar los paneles
 			this.contentPanel.setLayout(new BorderLayout());
-			this.displeyPanel.setLayout(new BorderLayout(40,50));
-			this.buttonPanel.setLayout(new GridLayout(4, 5, 5, 5));// cuadrícula de 4 filas y 5 columnas
+			this.displeyPanel.setLayout(new BorderLayout());
+				
+			this.buttonPanel.setLayout(new GridLayout(8,4, 5, 5));// cuadrícula de 4 filas y 5 columnas
 			// configurar el campo del texto del display
-			this.basepanel.setLayout(new GridLayout(1,4,5,5));
-			this.display.setFont(new Font("Arial", Font.BOLD, 50));
+			this.basepanel.setLayout(new BorderLayout());
+			this.display.setFont(new Font("Arial", Font.BOLD,30));
 			this.displeyPanel.add(this.display);
+			//panel superior donde se muestra la marca y la info 
+			this.marcaPanel.add(this.casio);
+			this.basepanel.add(this.marcaPanel,BorderLayout.EAST);
+			this.basepanel.add(this.infoPanel,BorderLayout.WEST);
 			
-			this.basepanel.add(this.hexBoton);
-			this.basepanel.add(this.decBoton);
-			this.basepanel.add(this.octBoton);
-			this.basepanel.add(this.binButon);
-			
-
-			// añadir botones al panel de botones
+		
+			// añadir botones al panel de botones fila 1
+			this.buttonPanel.add(this.binBoton);
+			this.buttonPanel.add(this.octBoton);
+			this.buttonPanel.add(this.decBoton);
+			this.buttonPanel.add(this.hexBoton);
+			//fila 2
+			this.buttonPanel.add(this.A);
+			this.buttonPanel.add(this.B);
+			this.buttonPanel.add(this.C);
+			this.buttonPanel.add(this.info);
+			//fila3
+			this.buttonPanel.add(this.D);
+			this.buttonPanel.add(this.E);
+			this.buttonPanel.add(this.F);
+			this.buttonPanel.add(this.owner);
+			//fila 4
 			this.buttonPanel.add(n7);
 			this.buttonPanel.add(n8);
 			this.buttonPanel.add(n9);
 			this.buttonPanel.add(this.resta);
-			this.buttonPanel.add(this.suma);
+			//fila 5	
 			this.buttonPanel.add(n4);
 			this.buttonPanel.add(n5);
 			this.buttonPanel.add(n6);
-			this.buttonPanel.add(this.multiplica);
-			this.buttonPanel.add(this.divide);
+			this.buttonPanel.add(this.suma);
+			//fila6
 			this.buttonPanel.add(n1);
 			this.buttonPanel.add(n2);
 			this.buttonPanel.add(n3);
+			this.buttonPanel.add(this.multiplica);
+			//fila 7
+			this.buttonPanel.add(n0);
+			this.buttonPanel.add(this.divide);
 			this.buttonPanel.add(this.porcentaje);
 			this.buttonPanel.add(this.elevado);
-			this.buttonPanel.add(this.igual);
-			this.buttonPanel.add(n0);
+			//fila 8
+			this.buttonPanel.add(this.igual);	
 			this.buttonPanel.add(this.borra);
 			this.buttonPanel.add(this.botonRetroceso);
 			this.buttonPanel.add(this.factorial);
@@ -169,17 +227,34 @@ public class Engine implements ActionListener{
 			setFeaturesButton(this.botonRetroceso, ButtonType.OPERATOR);
 			setFeaturesButton(this.elevado, ButtonType.OPERATOR);
 			setFeaturesButton(this.factorial, ButtonType.OPERATOR);
-
+			
+			setFeaturesButton(this.A,ButtonType.EXADECIMAL);
+			setFeaturesButton(this.B,ButtonType.EXADECIMAL);
+			setFeaturesButton(this.C,ButtonType.EXADECIMAL);
+			setFeaturesButton(this.D,ButtonType.EXADECIMAL);
+			setFeaturesButton(this.E,ButtonType.EXADECIMAL);
+			setFeaturesButton(this.F,ButtonType.EXADECIMAL);
+			
+			setFeaturesButton(this.hexBoton,ButtonType.BASE);
+			setFeaturesButton(this.octBoton,ButtonType.BASE);
+			setFeaturesButton(this.binBoton,ButtonType.BASE);
+			setFeaturesButton(this.decBoton,ButtonType.BASE);
+			
+			setFeaturesButton(this.casio,ButtonType.MARCA);
+			setFeaturesButton(this.info,ButtonType.EXTRAS);
+			setFeaturesButton(this.owner,ButtonType.EXTRAS);
 			// Añadir los paneles a la ventana principal
 			
-			this.contentPanel.add(this.displeyPanel, BorderLayout.NORTH);// display parte superior
-			this.contentPanel.add(this.basepanel,BorderLayout.SOUTH);
-			this.contentPanel.add(this.buttonPanel, BorderLayout.CENTER);// displey en el centro
+			
+		
+			this.contentPanel.add(this.basepanel,BorderLayout.NORTH);
+			this.contentPanel.add(this.displeyPanel,BorderLayout.CENTER);
+			this.contentPanel.add(this.buttonPanel,BorderLayout.SOUTH);
 
 			// Configurar las propiedades de la ventana
 			this.frame.setContentPane(contentPanel);
 			this.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);// cerrar la aplicación al cerrar la ventana
-			this.frame.setSize(400, 500);// tamaño de la ventana
+			this.frame.setSize(600, 800);// tamaño de la ventana
 			this.frame.setLocationRelativeTo(null);// centrar ventana
 			this.frame.setVisible(true);// mostrar ventana
 		}
@@ -192,15 +267,42 @@ public class Engine implements ActionListener{
 		 * @param_Type El tipo de boton (REGULAR, OPERATOR)
 		 */
 		public void setFeaturesButton(JButton _button, ButtonType _type) {
-			if (_type == ButtonType.REGULAR) {
-				_button.setBackground(Color.LIGHT_GRAY);// fondo gris para números
-			} else {// botones OPERATOR
-				_button.setBackground(Color.pink);// fondo rosa para para operadores
+			//REGULAR, OPERATOR,BASE,EXADECIMAL, EXTRAS, MARCA
+			switch(_type) {
+			case REGULAR:
+				_button.setBackground(Color.LIGHT_GRAY);//fondo gris para numeros
+				_button.setFont(new Font("Arial", Font.BOLD, 20));// fuente grande y en negrita
+				_button.setBorder(BorderFactory.createLineBorder(Color.white));// bordes blancos
+				break;
+			case OPERATOR:
+				_button.setBackground(Color.pink);
 				_button.setForeground(Color.WHITE);// texto banco
+				_button.setFont(new Font("Arial", Font.BOLD, 20));// fuente grande y en negrita
+				_button.setBorder(BorderFactory.createLineBorder(Color.white));// bordes blancos
+				break;
+			case BASE:
+				_button.setBackground(Color.blue);
+				_button.setFont(new Font("Arial", Font.BOLD, 20));// fuente grande y en negrita
+				_button.setBorder(BorderFactory.createLineBorder(Color.white));// bordes blancos
+				break;
+			case EXADECIMAL:
+				_button.setBackground(Color.green);
+				_button.setFont(new Font("Arial", Font.BOLD, 20));// fuente grande y en negrita
+				_button.setBorder(BorderFactory.createLineBorder(Color.white));// bordes blancos
+				break;
+			case EXTRAS:
+				_button.setBackground(Color.RED);
+				_button.setFont(new Font("Arial", Font.BOLD, 20));// fuente grande y en negrita
+				_button.setBorder(BorderFactory.createLineBorder(Color.white));// bordes blancos
+				break;
+			case MARCA:
+				_button.setBackground(Color.pink);
+				_button.setFont(new Font("Arial", Font.BOLD, 20));// fuente grande y en negrita
+				_button.setBorder(BorderFactory.createLineBorder(Color.white));// bordes blancos
+				break;
+				
+			
 			}
-
-			_button.setFont(new Font("Arial", Font.BOLD, 20));// fuente grande y en negrita
-			_button.setBorder(BorderFactory.createLineBorder(Color.white));// bordes blancos
 		}
 		
 		/**
@@ -229,9 +331,9 @@ public class Engine implements ActionListener{
 			this.factorial.addActionListener(this);
 			this.hexBoton.addActionListener(this);
 			this.octBoton.addActionListener(this);
-			this.binButon.addActionListener(this);
+			this.binBoton.addActionListener(this);
 			this.decBoton.addActionListener(this);
-
+			
 		}
 
 		/**
