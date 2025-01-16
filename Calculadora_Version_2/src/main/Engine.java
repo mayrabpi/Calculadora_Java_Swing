@@ -76,7 +76,7 @@ public class Engine implements ActionListener{
 	
 	
 	//variable para controlar la base actual
-	private int currentBase = 10;//por defecto decimal
+	private int BaseActual;//por defecto decimal
 	
 
 	// tipos de boton: númericos o de operación
@@ -376,6 +376,25 @@ public class Engine implements ActionListener{
 			this.display.setText(String.valueOf(this.resultado));// mostrar el resultado
 
 		}
+		private void setBase(int nuevaBase) {
+			this.BaseActual = nuevaBase;
+			String baseText="";
+			switch(nuevaBase){
+				case 2:
+					baseText="Base: Binario (BIN)";
+					break;
+				case 8:
+					baseText="Base: Octal (OCT)";
+					break;
+				case 10:
+					baseText ="Base: Decimal (DEC)";
+					break;
+				case 16: baseText="Base: Hexadecimal (HEX)";
+				break;		
+			}
+			this.infoPanel.setText(baseText);
+			//display.setText("Operando en "+ baseText);
+		}
 		/**
 		 * Este metodo detecta qué botón se presionó y realiza la accion correspondiente
 		 */
@@ -438,6 +457,17 @@ public class Engine implements ActionListener{
 			}else if (source == this.owner) {
 				String mensaje ="Desarrollado por:Mayra Barrantes Pi\nContacto: https://github.com/mayrabpi";
 				new VentanaEmergente(mensaje).setVisible(true);
+				//botones cambio de base
+			}else if(source == this.binBoton) {
+				setBase(2);
+			}else if (source==this.octBoton) {
+				setBase(8);
+			}else if (source ==this.hexBoton) {
+				setBase(16);
+			}else if(source==this.decBoton) {
+				setBase(10);
+			}else {// para cualquier otro boton añade el texto al display
+				this.display.setText(this.display.getText() + input_text);
 			}
 		}
 		
