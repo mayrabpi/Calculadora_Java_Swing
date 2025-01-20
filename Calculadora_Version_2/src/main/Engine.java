@@ -81,7 +81,7 @@ public class Engine implements ActionListener{
 
 	// tipos de boton: númericos o de operación
 	private enum ButtonType {
-		REGULAR, OPERATOR,BASE,EXADECIMAL, EXTRAS, MARCA
+		REGULAR, OPERATOR,BASE,HEXADECIMAL, EXTRAS, MARCA
 	};
 	// Variables para almacenara temporalmente los números y el resultado
 		private int num1;
@@ -232,12 +232,12 @@ public class Engine implements ActionListener{
 			setFeaturesButton(this.elevado, ButtonType.OPERATOR);
 			setFeaturesButton(this.factorial, ButtonType.OPERATOR);
 			
-			setFeaturesButton(this.A,ButtonType.EXADECIMAL);
-			setFeaturesButton(this.B,ButtonType.EXADECIMAL);
-			setFeaturesButton(this.C,ButtonType.EXADECIMAL);
-			setFeaturesButton(this.D,ButtonType.EXADECIMAL);
-			setFeaturesButton(this.E,ButtonType.EXADECIMAL);
-			setFeaturesButton(this.F,ButtonType.EXADECIMAL);
+			setFeaturesButton(this.A,ButtonType.HEXADECIMAL);
+			setFeaturesButton(this.B,ButtonType.HEXADECIMAL);
+			setFeaturesButton(this.C,ButtonType.HEXADECIMAL);
+			setFeaturesButton(this.D,ButtonType.HEXADECIMAL);
+			setFeaturesButton(this.E,ButtonType.HEXADECIMAL);
+			setFeaturesButton(this.F,ButtonType.HEXADECIMAL);
 			
 			setFeaturesButton(this.hexBoton,ButtonType.BASE);
 			setFeaturesButton(this.octBoton,ButtonType.BASE);
@@ -290,7 +290,7 @@ public class Engine implements ActionListener{
 				_button.setFont(new Font("Arial", Font.BOLD, 20));// fuente grande y en negrita
 				_button.setBorder(BorderFactory.createLineBorder(Color.white));// bordes blancos
 				break;
-			case EXADECIMAL:
+			case HEXADECIMAL:
 				_button.setBackground(Color.green);
 				_button.setFont(new Font("Arial", Font.BOLD, 20));// fuente grande y en negrita
 				_button.setBorder(BorderFactory.createLineBorder(Color.white));// bordes blancos
@@ -348,52 +348,116 @@ public class Engine implements ActionListener{
 			this.owner.addActionListener(this);
 			
 		}
+		/**
+		 * Convierte un numero de la base actua a decimal
+		 * @param numero numero en la base actual a convertir
+		 * @return numero convertido a decimal
+		 */
+		public int convertirADecimal(String numero) {
+			switch(this.BaseActual) {
+			case 2://binaroi
+				return Integer.parseInt(numero,2);
+			case 8://octal
+				return Integer.parseInt(numero,8);
+			case 16://hexadecimal
+				return Integer.parseInt(numero,16);
+			default://decimal
+				return Integer.parseInt(numero,10);
+			}
+		}
+		/**
+		 * Convierte el resultado decimal a la base actual selecionada
+		 * @param resultado resultado en decimal a convertir
+		 * @return String con el numero convertido a la base actual
+		 */
+		public String convertirABaseActual(int resultado) {
+			switch(this.BaseActual) {
+			case 2:
+				 return Integer.toBinaryString(resultado);
+			case 8:
+				 return Integer.toOctalString(resultado);
+			case 16:
+				 return Integer.toHexString(resultado);
+			default:
+				return  String.valueOf(resultado);
+			}
+		}
 
 		/**
 		 * Metodo que realiza las operaciones matemáticas en función del operador
 		 */
 		public void operacion() {
-			switch (this.operacion) {
-			case '+':
-				this.resultado = this.num1 + this.num2;
-				break;
-			case '-':
-				this.resultado = this.num1 - this.num2;
-				break;
-			case 'x':
-				this.resultado = this.num1 * this.num2;
-				break;
-			case '/':
-				this.resultado = this.num1 / this.num2;
-				break;
-			case '%':
-				this.resultado = (this.num1 * this.num2) / 100;
-				break;
-			case '^':
-				this.resultado = (int) Math.pow(this.num1, this.num2);
-				break;
-			}
-			this.display.setText(String.valueOf(this.resultado));// mostrar el resultado
+		    String texto = this.display.getText();
+		    String regex = "(-?[0-9A-Fa-f]+)([%+-x/^])(-?[0-9A-Fa-f]+)";
+		    Pattern pattern = Pattern.compile(regex);
+		    Matcher matcher = pattern.matcher(texto);
 
+		    if (matcher.matches()) {
+		        
+		            // Convertir los números de la base actual a decimal para operar
+		            this.num1 = convertirADecimal(matcher.group(1));
+		            this.operacion = matcher.group(2).charAt(0);
+		            this.num2 = convertirADecimal(matcher.group(3));
+		            
+		            // Realizar la operación
+		            switch (this.operacion) {
+		                case '+':
+		                    this.resultado = this.num1 + this.num2;
+		                    break;
+		                case '-':
+		                    this.resultado = this.num1 - this.num2;
+		                    break;
+		                case 'x':
+		                    this.resultado = this.num1 * this.num2;
+		                    break;
+		                case '/':
+		                    if (this.num2 == 0) {
+		                        this.display.setText("No se puede dividir por 0");
+		                        return;
+		                    }
+		                    this.resultado = this.num1 / this.num2;
+		                    break;
+		                case '%':
+		                    this.resultado = (this.num1 * this.num2) / 100;
+		                    break;
+		                case '^':
+		                    this.resultado = (int) Math.pow(this.num1, this.num2);
+		                    break;
+		            }
+		            
+		            // Convertir el resultado a la base actual antes de mostrarlo
+		            String resultadoEnBaseActual = convertirABaseActual(this.resultado);
+		            this.display.setText(resultadoEnBaseActual.toUpperCase()); // Convertir a mayúsculas para hexadecimal
+		      
+		    } else {
+		        this.display.setText("Error de formato");
+		    }
 		}
+
+		/**
+		 * Metodo que cambia de base y escribe en el texfield de info la base en la que se esta operando
+		 * @param nuevaBase
+		 */
 		private void setBase(int nuevaBase) {
 			this.BaseActual = nuevaBase;
+			
 			String baseText="";
 			switch(nuevaBase){
 				case 2:
-					baseText="Base: Binario (BIN)";
+					baseText="Base: Binario Ingrese números binarios(0-1)";		
 					break;
 				case 8:
-					baseText="Base: Octal (OCT)";
+					baseText="Base: Octal Ingrese números octales(0-7)";
 					break;
 				case 10:
-					baseText ="Base: Decimal (DEC)";
+					baseText ="Base: Decimal Ingese números decimales(0-9)";
 					break;
-				case 16: baseText="Base: Hexadecimal (HEX)";
+				case 16: baseText="Base: Hexadecimal Ingrse número hexadecimal(0-9,A-F)";
 				break;		
 			}
-			this.infoPanel.setText(baseText);
-			//display.setText("Operando en "+ baseText);
+			this.infoPanel.setText(baseText);//añase el texto a infoPanel
+			
+		
 		}
 		/**
 		 * Este metodo detecta qué botón se presionó y realiza la accion correspondiente
@@ -405,18 +469,7 @@ public class Engine implements ActionListener{
 			// obtiene el texto del boton presionado
 			String input_text = e.getActionCommand();
 
-			String texto = this.display.getText();
-			String regex = "(-?\\d+)([%+-x/^])(-?\\d+)";
-			Pattern pattern = Pattern.compile(regex);
-			Matcher matcher = pattern.matcher(texto);
-
-			if (matcher.matches()) {
-				this.num1 = Integer.parseInt(matcher.group(1));
-				this.operacion = matcher.group(2).charAt(0);
-				this.num2 = Integer.parseInt(matcher.group(3));
-			} else {
-				this.resultado = 0;
-			}
+		
 			// boton "C" borra limpia el display
 			if (source == this.borra) {
 				this.display.setText("");
@@ -425,13 +478,7 @@ public class Engine implements ActionListener{
 				this.resultado = 0;
 				this.operacion = ' ';
 			} else if (source == this.igual) {// botón "="
-				if (this.operacion == '/' && this.num2 == 0) {// control de error en division por 0
-					this.display.setText("No se puede dividir por 0");
-				} else {// si pulsa otra operación llamamos al metodo operación e imprimimos el
-						// resultado
-					operacion();
-					this.display.setText(String.valueOf(this.resultado));
-				}
+			    operacion();
 			} else if (source == this.botonRetroceso) {// borra uno a uno los números u operadores
 				if (!this.display.getText().isEmpty()) {// si el display no esta vacio
 					this.display.setText(this.display.getText().substring(0, this.display.getText().length() - 1));
@@ -442,7 +489,7 @@ public class Engine implements ActionListener{
 				this.display.setText(String.valueOf(resultado));
 			} else if ( source==this.casio) {
 				try {
-					Desktop.getDesktop().browse(new URI("https://www.casio.com"));
+					Desktop.getDesktop().browse(new URI("https://www.casio.com/es/scientific-calculators/"));
 				} catch (IOException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -460,14 +507,37 @@ public class Engine implements ActionListener{
 				//botones cambio de base
 			}else if(source == this.binBoton) {
 				setBase(2);
+				
 			}else if (source==this.octBoton) {
 				setBase(8);
 			}else if (source ==this.hexBoton) {
 				setBase(16);
 			}else if(source==this.decBoton) {
 				setBase(10);
-			}else {// para cualquier otro boton añade el texto al display
+			}else if (source instanceof JButton) {// para cualquier otro boton añade el texto al display
+				if(esEntradaValidaParaBaseActual(input_text)) {
 				this.display.setText(this.display.getText() + input_text);
+				}
+			}
+		}
+		/**
+		 * verifica si la entrada es valida para la base numerica actual 
+		 * @param entrada texto del boton presionado
+		 * @return true si la entrada es valida para la base actual, false en caso contrario
+		 */
+		public boolean esEntradaValidaParaBaseActual(String entrada) {
+			if("+-x/%^=C".contains(entrada)) {
+				return true;
+			}
+			switch(this.BaseActual) {
+			case 2://solo permite 01 para binario
+				return entrada.matches("[01]");
+			case 8://solo permite digitos del 0 al 7 para octal
+				return entrada.matches("[0-7]");
+			case 16://permite digitos y letras A-F para hexadecimal
+				return entrada.matches("[0-9A-Fa-f]");
+			default://solo permite digitos para decimal
+				return entrada.matches("[0-9]");
 			}
 		}
 		
