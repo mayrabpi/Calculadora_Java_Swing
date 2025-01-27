@@ -57,6 +57,8 @@ Una calculadora simple pero funcional construida con Java Swing, que proporciona
 * Mayra 
 * GitHub: [@mayrabpi](https://github.com/mayrabpi)
 
+  
+🖩  VERSIÓN 2 CALCULADORA JAVA MULTI-BASE 
   # 🖩 Calculadora Científica Multi-Base
 
 Una calculadora científica implementada en Java con capacidad para realizar operaciones en diferentes bases numéricas (binario, octal, decimal y hexadecimal).
@@ -111,7 +113,7 @@ git clone https://github.com/mayrabpi/calculadora-cientifica.git
 1. Selecciona la base numérica deseada (BIN, OCT, DEC, HEX)
 2. Ingresa los números usando el teclado numérico
 3. Para números hexadecimales, usa los botones A-F
-4. Selecciona la operación a realizar
+4. Selecciona la operación a realizar (+.-,*,/,^,!)
 5. Presiona = para obtener el resultado
 6. El resultado se mostrará en la base numérica actual
 
@@ -137,7 +139,6 @@ Este proyecto está bajo la Licencia MIT - ver el archivo [LICENSE.md](LICENSE.m
 ## 🙋‍♀️ Contacto
 
 Para preguntas o sugerencias, no dudes en:
-- Abrir un issue
 - Contactarme a través de GitHub
   
 
