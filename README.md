@@ -58,7 +58,7 @@ Una calculadora simple pero funcional construida con Java Swing, que proporciona
 * GitHub: [@mayrabpi](https://github.com/mayrabpi)
 
   
-🖩  VERSIÓN 2 CALCULADORA JAVA MULTI-BASE 
+### 🖩  VERSIÓN 2 CALCULADORA JAVA MULTI-BASE 
   # 🖩 Calculadora Científica Multi-Base
 
 Una calculadora científica implementada en Java con capacidad para realizar operaciones en diferentes bases numéricas (binario, octal, decimal y hexadecimal).
