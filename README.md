@@ -62,6 +62,8 @@ Una calculadora simple pero funcional construida con Java Swing, que proporciona
   
 # 🖩  VERSIÓN 2 CALCULADORA JAVA MULTI-BASE 
   # 🖩 Calculadora Científica Multi-Base
+  
+![Vista previa de la calculadora](calcuV2.PNG)
 
 Una calculadora científica implementada en Java con capacidad para realizar operaciones en diferentes bases numéricas (binario, octal, decimal y hexadecimal).
 
