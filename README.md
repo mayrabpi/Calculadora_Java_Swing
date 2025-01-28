@@ -136,9 +136,7 @@ Las contribuciones son bienvenidas. Para cambios importantes:
 **Mayra Barrantes Pi**
 - GitHub: [@mayrabpi](https://github.com/mayrabpi)
 
-## 📄 Licencia
 
-Este proyecto está bajo la Licencia MIT - ver el archivo [LICENSE.md](LICENSE.md) para más detalles.
 
 ## 🙋‍♀️ Contacto
 
