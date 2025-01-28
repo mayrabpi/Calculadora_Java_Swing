@@ -157,7 +157,7 @@ public class Engine implements ActionListener{
 			this.contentPanel.setLayout(new BorderLayout());
 			this.displeyPanel.setLayout(new BorderLayout());
 				
-			this.buttonPanel.setLayout(new GridLayout(8,4, 5, 5));// cuadrícula de 4 filas y 5 columnas
+			this.buttonPanel.setLayout(new GridLayout(8,4, 5, 5));// cuadrícula de 4 filas y 8 columnas
 			// configurar el campo del texto del display
 			this.basepanel.setLayout(new BorderLayout());
 			this.display.setFont(new Font("Arial", Font.BOLD,30));
