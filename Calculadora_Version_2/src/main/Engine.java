@@ -102,7 +102,7 @@ public class Engine implements ActionListener{
 			this.display = new JTextField();
 			
 			this.basepanel= new JPanel();
-			this.infoPanel = new JTextField("info",25);
+			this.infoPanel = new JTextField("¿En qué base desea operar?",30);
 			this.marcaPanel= new JPanel();
 	
 			
@@ -141,10 +141,9 @@ public class Engine implements ActionListener{
 			this.D= new JButton("D");
 			this.E= new JButton("E");
 			this.F= new JButton("F");
-		
-		
-		
-			
+			//Estilo botones
+			setDisplayAndPanelStyles();
+				
 			// configurar la ventana
 			setSetting();
 			// Añadir ActionListener a los botones
@@ -271,42 +270,78 @@ public class Engine implements ActionListener{
 		 * @param_Type El tipo de boton (REGULAR, OPERATOR)
 		 */
 		public void setFeaturesButton(JButton _button, ButtonType _type) {
-			_button.setPreferredSize(new Dimension(40,60));
-			//REGULAR, OPERATOR,BASE,EXADECIMAL, EXTRAS, MARCA
+			//base comun para todos los botones
+			_button.setPreferredSize(new Dimension(35,55));
+			_button.setFocusPainted(false);//quita el borde del focus
+			_button.setBorder(BorderFactory.createRaisedBevelBorder());//borde efecto 3D
+			_button.setFont(new Font("Segoe UI", Font.BOLD, 20)); // Fuente  moderna
+			//_button.setFont(new Font("Arial", Font.BOLD, 20));// fuente grande y en negrita
 			switch(_type) {
 			case REGULAR:
-				_button.setBackground(Color.LIGHT_GRAY);//fondo gris para numeros
-				_button.setFont(new Font("Arial", Font.BOLD, 20));// fuente grande y en negrita
-				_button.setBorder(BorderFactory.createLineBorder(Color.white));// bordes blancos
+				_button.setBackground( new Color(236,240,241));//fondo gris para numeros	
 				break;
 			case OPERATOR:
-				_button.setBackground(Color.pink);
-				_button.setForeground(Color.WHITE);// texto banco
-				_button.setFont(new Font("Arial", Font.BOLD, 20));// fuente grande y en negrita
-				_button.setBorder(BorderFactory.createLineBorder(Color.white));// bordes blancos
+				_button.setBackground(new Color(119,136,153));
+				_button.setForeground(Color.white);
 				break;
 			case BASE:
-				_button.setBackground(Color.blue);
-				_button.setFont(new Font("Arial", Font.BOLD, 20));// fuente grande y en negrita
-				_button.setBorder(BorderFactory.createLineBorder(Color.white));// bordes blancos
+				_button.setBackground(new Color(52, 152, 219)); // Azul real	
+				_button.setForeground(Color.white);
+				
+			    // Efecto hover
+	            _button.addMouseListener(new java.awt.event.MouseAdapter() {
+	                public void mouseEntered(java.awt.event.MouseEvent evt) {
+	                    _button.setBackground(new Color(30, 70, 190));
+	                }
+	                public void mouseExited(java.awt.event.MouseEvent evt) {
+	                    _button.setBackground(new Color(65, 105, 225));
+	                }
+	            });
 				break;
 			case HEXADECIMAL:
-				_button.setBackground(Color.green);
-				_button.setFont(new Font("Arial", Font.BOLD, 20));// fuente grande y en negrita
-				_button.setBorder(BorderFactory.createLineBorder(Color.white));// bordes blancos
+				_button.setBackground(new Color(132,206,250));	
+				_button.setForeground(Color.white);	
 				break;
 			case EXTRAS:
-				_button.setBackground(Color.RED);
-				_button.setFont(new Font("Arial", Font.BOLD, 20));// fuente grande y en negrita
-				_button.setBorder(BorderFactory.createLineBorder(Color.white));// bordes blancos
+				_button.setBackground(new Color(255,182,193));	
+				//_button.setForeground(Color.white);
 				break;
 			case MARCA:
 				_button.setPreferredSize(new Dimension(80,40));
-				_button.setBackground(Color.pink);
-				_button.setFont(new Font("Arial", Font.BOLD, 20));// fuente grande y en negrita
-				_button.setBorder(BorderFactory.createLineBorder(Color.white));// bordes blancos
+				_button.setBackground(new Color (44,62,80));
+				_button.setForeground(new Color(236,240,241));
+				 _button.setFont(new Font("Arial Black", Font.BOLD, 16));
 				break;		
 			}
+			// Efecto de presionado para todos los botones
+		    _button.addMouseListener(new java.awt.event.MouseAdapter() {
+		        public void mousePressed(java.awt.event.MouseEvent evt) {
+		            _button.setBorder(BorderFactory.createLoweredBevelBorder());
+		        }
+		        public void mouseReleased(java.awt.event.MouseEvent evt) {
+		            _button.setBorder(BorderFactory.createRaisedBevelBorder());
+		        }
+		    });
+		}
+		/**
+		 * metodo que establece el estilo del display y los paneles 
+		 */
+		public void setDisplayAndPanelStyles() {
+		    // Estilo del display
+		    this.display.setBackground(new Color(236, 240, 241)); // Fondo claro
+		    this.display.setForeground(new Color(44, 62, 80));    // Texto oscuro   
+		    // Estilo del panel de información
+		    this.infoPanel.setBackground(new Color(189,195,199));
+		    this.infoPanel.setForeground(new Color(44, 62, 80));
+		    this.infoPanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+		    this.infoPanel.setFont( new Font("Arial", Font.BOLD,15));
+		    
+		    // Estilo de los paneles
+		    this.contentPanel.setBackground(new Color(189, 195, 199));
+		    this.displeyPanel.setBackground(new Color(189, 195, 199));
+		    this.buttonPanel.setBackground(new Color(189, 195, 199));
+		    this.basepanel.setBackground(new Color(189, 195, 199));
+		    this.marcaPanel.setBackground(new Color(189, 195, 199));
 		}
 		
 		/**
@@ -351,9 +386,9 @@ public class Engine implements ActionListener{
 		/**
 		 * Convierte un numero de la base actua a decimal
 		 * @param numero numero en la base actual a convertir
-		 * @return numero convertido a decimal
+		 * @return numero convertido a decimal(base10)
 		 */
-		public int convertirADecimal(String numero) {
+		public int convertirADecimal(String numero, int baseOrigen) {
 			switch(this.BaseActual) {
 			case 2://binaroi
 				return Integer.parseInt(numero,2);
@@ -365,6 +400,24 @@ public class Engine implements ActionListener{
 				return Integer.parseInt(numero,10);
 			}
 		}
+		/**
+		 * Metodo que convierte un numero decimal a la base numerica especificada 
+		 * @param numero Numero decimal a convertir
+		 * @param baseDestino
+		 * @return Cadena que representa el numero en la base destino
+		 */
+		public String convertirABase(int numero, int baseDestino) {
+	        switch (baseDestino) {
+	            case 2:
+	                return Integer.toBinaryString(numero).toUpperCase();
+	            case 8:
+	                return Integer.toOctalString(numero).toUpperCase();
+	            case 16:
+	                return Integer.toHexString(numero).toUpperCase();
+	            default:
+	                return String.valueOf(numero);
+	        }
+	    }		
 		/**
 		 * Convierte el resultado decimal a la base actual selecionada
 		 * @param resultado resultado en decimal a convertir
@@ -384,7 +437,8 @@ public class Engine implements ActionListener{
 		}
 
 		/**
-		 * Metodo que realiza las operaciones matemáticas en función del operador
+		 * Metodo que realiza las operaciones matemáticas en función del operador: suma(+), resta(-),etc
+		 * el metodo primero convierte los numeros a decimal, realiza la operacion y luego convierte de vuelta a la base acts
 		 */
 		public void operacion() {
 		    String texto = this.display.getText();
@@ -395,9 +449,9 @@ public class Engine implements ActionListener{
 		    if (matcher.matches()) {
 		        
 		            // Convertir los números de la base actual a decimal para operar
-		            this.num1 = convertirADecimal(matcher.group(1));
+		            this.num1 = convertirADecimal(matcher.group(1), this.BaseActual);
 		            this.operacion = matcher.group(2).charAt(0);
-		            this.num2 = convertirADecimal(matcher.group(3));
+		            this.num2 = convertirADecimal(matcher.group(3),this.BaseActual);
 		            
 		            // Realizar la operación
 		            switch (this.operacion) {
@@ -438,26 +492,26 @@ public class Engine implements ActionListener{
 		 * Metodo que cambia de base y escribe en el texfield de info la base en la que se esta operando
 		 * @param nuevaBase
 		 */
-		private void setBase(int nuevaBase) {
+		public void setBase(int nuevaBase) {
 			this.BaseActual = nuevaBase;
 			
 			String baseText="";
 			switch(nuevaBase){
 				case 2:
-					baseText="Base: Binario Ingrese números binarios(0-1)";		
+					baseText="Base: BINARIO- números binarios(0-1)";		
 					break;
 				case 8:
 					baseText="Base: Octal Ingrese números octales(0-7)";
 					break;
 				case 10:
-					baseText ="Base: Decimal Ingese números decimales(0-9)";
+					baseText="Base: Decimal Ingese números decimales(0-9)";
 					break;
-				case 16: baseText="Base: Hexadecimal Ingrse número hexadecimal(0-9,A-F)";
+				case 16:
+					baseText="Base: Hexadecimal Ingrese número hexadecimal(0-9,A-F)";
 				break;		
 			}
 			this.infoPanel.setText(baseText);//añase el texto a infoPanel
 			
-		
 		}
 		/**
 		 * Este metodo detecta qué botón se presionó y realiza la accion correspondiente
@@ -487,14 +541,12 @@ public class Engine implements ActionListener{
 				int numero = Integer.parseInt(display.getText());
 				int resultado = factorial(numero);
 				this.display.setText(String.valueOf(resultado));
-			} else if ( source==this.casio) {
+			} else if ( source==this.casio) {//boton casio cuando lo pulsas te lleva  a la pagina oficial de casio
 				try {
 					Desktop.getDesktop().browse(new URI("https://www.casio.com/es/scientific-calculators/"));
 				} catch (IOException e1) {
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				} catch (URISyntaxException e1) {
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
 			} else if(source==this.info){
@@ -504,21 +556,52 @@ public class Engine implements ActionListener{
 			}else if (source == this.owner) {
 				String mensaje ="Desarrollado por:Mayra Barrantes Pi\nContacto: https://github.com/mayrabpi";
 				new VentanaEmergente(mensaje).setVisible(true);
-				//botones cambio de base
-			}else if(source == this.binBoton) {
-				setBase(2);
+			}else if (source== this.binBoton|| source == this.octBoton|| source==this.hexBoton|| source==this.decBoton) {
 				
-			}else if (source==this.octBoton) {
-				setBase(8);
-			}else if (source ==this.hexBoton) {
-				setBase(16);
-			}else if(source==this.decBoton) {
-				setBase(10);
+				//obtener el texto actual 
+                String resultadoActual= this.display.getText();
+				
+				//si hay texto en la pantalla
+				if(!resultadoActual.isEmpty()&&!resultadoActual.contains("+")
+						&&!resultadoActual.contains("-")&&!resultadoActual.contains("x")
+						&&!resultadoActual.contains("/")&&!resultadoActual.contains("%")&&!resultadoActual.contains("%")&&!resultadoActual.contains("^")) {
+					//detectar la base actual de un número
+					int baseOrigen = detectarBaseActual(resultadoActual);
+					
+					//convertimos a decimal
+					int numeroDecimal = convertirADecimal(resultadoActual,baseOrigen);//por parametro el resulatdo actual y la base en la está
+					//botones cambio de base
+				 if(source == this.binBoton) {
+					setBase(2);
+					this.display.setText(convertirABase(numeroDecimal,2));
+				}else if (source==this.octBoton) {
+					setBase(8);
+					this.display.setText(convertirABase(numeroDecimal,8));
+				}else if (source ==this.hexBoton) {
+					setBase(16);
+					this.display.setText(convertirABase(numeroDecimal,16));
+				}else if(source==this.decBoton) {
+					setBase(10);
+					this.display.setText(convertirABase(numeroDecimal,10));
+					
+				}
+			 }else {
+					if (source == this.binBoton) setBase(2);
+		            else if (source == this.octBoton) setBase(8);
+		            else if (source == this.hexBoton) setBase(16);
+		            else if (source == this.decBoton) setBase(10);
+				}
+				
+			
 			}else if (source instanceof JButton) {// para cualquier otro boton añade el texto al display
 				if(esEntradaValidaParaBaseActual(input_text)) {
 				this.display.setText(this.display.getText() + input_text);
 				}
 			}
+		}
+		private int detectarBaseActual(String resultadoActual) {
+
+			return 0;
 		}
 		/**
 		 * verifica si la entrada es valida para la base numerica actual 
