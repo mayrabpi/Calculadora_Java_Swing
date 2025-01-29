@@ -31,10 +31,10 @@ public class VentanaEmergente extends JDialog {
         // Area de texto con el mensaje
         JTextArea textArea = new JTextArea(mensaje);
         textArea.setEditable(false);
-        textArea.setWrapStyleWord(true);
-        textArea.setLineWrap(true);
+        textArea.setWrapStyleWord(true);//ajuste de palabra
+        textArea.setLineWrap(true);//si una linea no cabe en se creará otra linea
        // textArea.setBackground(new Color(240, 240, 240));
-        textArea.setFont(new Font("Arial", Font.PLAIN, 14));
+        textArea.setFont(new Font("Arial", Font.PLAIN, 16));
         
         // Botón de cerrar
         JButton closeButton = new JButton("Cerrar");

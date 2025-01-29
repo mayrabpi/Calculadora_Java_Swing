@@ -23,9 +23,10 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 
-
-
-
+/**
+ * Clase principal de la calculadora. Esta clase Implementa ActionListener para
+ * gestionar los eventos de los botones
+ */
 public class Engine implements ActionListener{
 	// componentes básicos principales
 	private JFrame frame;
@@ -102,7 +103,7 @@ public class Engine implements ActionListener{
 			this.display = new JTextField();
 			
 			this.basepanel= new JPanel();
-			this.infoPanel = new JTextField("¿En qué base desea operar?",30);
+			this.infoPanel = new JTextField("Elija la base para operar",30);
 			this.marcaPanel= new JPanel();
 	
 			
@@ -527,6 +528,7 @@ public class Engine implements ActionListener{
 			// boton "C" borra limpia el display
 			if (source == this.borra) {
 				this.display.setText("");
+				this.infoPanel.setText("Elija la  base para operar");
 				this.num1 = 0;
 				this.num2 = 0;
 				this.resultado = 0;
@@ -550,7 +552,7 @@ public class Engine implements ActionListener{
 					e1.printStackTrace();
 				}
 			} else if(source==this.info){
-				String mensaje="Calculadora cietífica";
+				String mensaje="Calculadora cietífica:\nCon capacidad para realizar operaciones en diferentes bases numéricas (binario, octal, decimal y hexadecimal).";
 				new VentanaEmergente(mensaje).setVisible(true);
 				
 			}else if (source == this.owner) {
@@ -566,7 +568,7 @@ public class Engine implements ActionListener{
 						&&!resultadoActual.contains("-")&&!resultadoActual.contains("x")
 						&&!resultadoActual.contains("/")&&!resultadoActual.contains("%")&&!resultadoActual.contains("%")&&!resultadoActual.contains("^")) {
 					//detectar la base actual de un número
-					int baseOrigen = detectarBaseActual(resultadoActual);
+					int baseOrigen = 0;
 					
 					//convertimos a decimal
 					int numeroDecimal = convertirADecimal(resultadoActual,baseOrigen);//por parametro el resulatdo actual y la base en la está
@@ -586,10 +588,14 @@ public class Engine implements ActionListener{
 					
 				}
 			 }else {
-					if (source == this.binBoton) setBase(2);
-		            else if (source == this.octBoton) setBase(8);
-		            else if (source == this.hexBoton) setBase(16);
-		            else if (source == this.decBoton) setBase(10);
+					if (source == this.binBoton) 
+						setBase(2);
+		            else if (source == this.octBoton) 
+		            	setBase(8);
+		            else if (source == this.hexBoton)
+		            	setBase(16);
+		            else if (source == this.decBoton) 
+		            	setBase(10);
 				}
 				
 			
@@ -599,10 +605,7 @@ public class Engine implements ActionListener{
 				}
 			}
 		}
-		private int detectarBaseActual(String resultadoActual) {
-
-			return 0;
-		}
+		
 		/**
 		 * verifica si la entrada es valida para la base numerica actual 
 		 * @param entrada texto del boton presionado
@@ -613,7 +616,7 @@ public class Engine implements ActionListener{
 				return true;
 			}
 			switch(this.BaseActual) {
-			case 2://solo permite 01 para binario
+			case 2://solo permite 0-1 para binario
 				return entrada.matches("[01]");
 			case 8://solo permite digitos del 0 al 7 para octal
 				return entrada.matches("[0-7]");
@@ -650,3 +653,7 @@ public class Engine implements ActionListener{
 /*else {// para cualquier otro boton añade el texto al display
 				this.display.setText(this.display.getText() + input_text);
 			}*/
+/*private int detectarBaseActual(String resultadoActual) {
+
+			return 0;
+		}*/
