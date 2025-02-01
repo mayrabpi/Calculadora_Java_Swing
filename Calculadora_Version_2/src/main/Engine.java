@@ -420,7 +420,7 @@ public class Engine implements ActionListener{
 	        }
 	    }		
 		/**
-		 * Convierte el resultado decimal a la base actual selecionada
+		 * Convierte el resultado de las operaciones  decimal a la base actual selecionada
 		 * @param resultado resultado en decimal a convertir
 		 * @return String con el numero convertido a la base actual
 		 */
@@ -539,11 +539,11 @@ public class Engine implements ActionListener{
 				if (!this.display.getText().isEmpty()) {// si el display no esta vacio
 					this.display.setText(this.display.getText().substring(0, this.display.getText().length() - 1));
 				}
-			} else if (source == this.factorial) {// boton (!) para calcular el factorial de un numero entero
+			} else if (source == this.factorial) {// boton (!) para calcular el factorial de un número entero
 				int numero = Integer.parseInt(display.getText());
 				int resultado = factorial(numero);
 				this.display.setText(String.valueOf(resultado));
-			} else if ( source==this.casio) {//boton casio cuando lo pulsas te lleva  a la pagina oficial de casio
+			} else if ( source==this.casio) {//boton casio cuando lo pulsas te lleva  a la página oficial de casio
 				try {
 					Desktop.getDesktop().browse(new URI("https://www.casio.com/es/scientific-calculators/"));
 				} catch (IOException e1) {
@@ -563,7 +563,7 @@ public class Engine implements ActionListener{
 				//obtener el texto actual 
                 String resultadoActual= this.display.getText();
 				
-				//si hay texto en la pantalla
+				//si hay texto en la pantalla esto es para cambiar un numero a cualquier basa al pulsar el boton que queramos cambiar, si el diplay no esta vacío y no contiene (+-x/,etc)
 				if(!resultadoActual.isEmpty()&&!resultadoActual.contains("+")
 						&&!resultadoActual.contains("-")&&!resultadoActual.contains("x")
 						&&!resultadoActual.contains("/")&&!resultadoActual.contains("%")&&!resultadoActual.contains("%")&&!resultadoActual.contains("^")) {
@@ -575,7 +575,7 @@ public class Engine implements ActionListener{
 					//botones cambio de base
 				 if(source == this.binBoton) {
 					setBase(2);
-					this.display.setText(convertirABase(numeroDecimal,2));
+					this.display.setText(convertirABase(numeroDecimal,2));//le añado el numeroDecimal que es lo que he cambiado a decimal 
 				}else if (source==this.octBoton) {
 					setBase(8);
 					this.display.setText(convertirABase(numeroDecimal,8));
@@ -642,14 +642,15 @@ public class Engine implements ActionListener{
 				resultado *= i;
 			}
 			return resultado;
-		}
-
-
-
-	
-	
-
+		}	
 }
+
+
+
+
+
+
+
 /*else {// para cualquier otro boton añade el texto al display
 				this.display.setText(this.display.getText() + input_text);
 			}*/
